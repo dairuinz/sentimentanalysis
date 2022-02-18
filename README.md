@@ -5,7 +5,7 @@ Maching Learning to determine if a Tweet is positive or negative.
 
 Options for visualization of the data and input of sklearn model.
 
-Short description:
+Short description:  
   Visualization of positive/negative words based on their frequency.  
   Visualization of positive/negative hashtags based on their frequency.  
   Clearing of text data.  
