@@ -40,7 +40,7 @@ def main():
 
     # pd.set_option('display.max_columns', None)
 
-    work_df = df[799500:800500]     #reducing the sample size for speed
+    work_df = df[799500:800500]     #reducing the sample size for speed (specific choice so we have 0 and 4 as target)
 
     data_preprocessing(work_df)       #prepares the dataset with some processing
     visualization(work_df)      #visualizes the words in dataset
