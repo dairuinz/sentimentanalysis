@@ -21,10 +21,10 @@ Used libraries include sklearn, matplotlib, seaborn, ntlk.
 
 **Libraries Installation:**
 
-gensim: pip install gensim  
-pandas: pip install pandas  
-seaborn: pip install seaborn  
-nltk: pip install nltk  
-wordcloud: pip install wordcloud  
-keras: pip install keras  
-tensorflow: pip install tensorflow  
+pip install gensim  
+pip install pandas  
+pip install seaborn  
+pip install nltk  
+pip install wordcloud  
+pip install keras  
+pip install tensorflow  
