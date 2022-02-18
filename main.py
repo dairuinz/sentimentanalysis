@@ -46,13 +46,8 @@ def main():
     # visualization(work_df)      #visualizes the words in dataset
     # hashtag_frequency(work_df)        #graphs the hashtag frequency
 
-    vectors = None
-
-    q = input('Press 1 for CountVectorizer or 2 for Word2Vec: ')
-    if q == 1:
-        vectors = vectorizer(work_df)       #converts text to vectors
-    elif q == 2:
-        vectors = wordtovec(work_df['clean'])       #use of word2vec libray
+    vectors = vectorizer(work_df)       #converts text to vectors
+    # vectors = wordtovec(work_df['clean'])       #use of word2vec libray
 
     work_df = date_prep(work_df)        #splits date to year, month, day, hour, minute, second
 
@@ -60,17 +55,12 @@ def main():
 
     a = input('Do you want to include dates & time to the prediction? y/n: ')
     if a == 'y':
-        try:
-            X = work_df.drop(['target', 'clean'], axis='columns')
-            X = pd.concat([pd.DataFrame(vectors).reset_index(drop=True), X.reset_index(drop=True)], axis='columns', ignore_index=True)        #dataframe with vectors + dates
-            model_training(X, work_df['target'])        #sklearn model for training and prediction
-        except:
-            pass
+        X = work_df.drop(['target', 'clean'], axis='columns')
+        X = pd.concat([pd.DataFrame(vectors).reset_index(drop=True), X.reset_index(drop=True)], axis='columns', ignore_index=True)        #dataframe with vectors + dates
+        model_training(X, work_df['target'])        #sklearn model for training and prediction
     elif a== 'n':
-        try:
-            model_training(vectors, work_df['target'])        #sklearn model for training and prediction
-        except:
-            pass
+        model_training(vectors, work_df['target'])        #sklearn model for training and prediction
+
 
 
     # lstm(vectors, work_df['target'])        #keras lstm
