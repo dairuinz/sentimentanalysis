@@ -1,5 +1,5 @@
 # sentimentanalysis
-Tweeter Sentiment Analysis 
+**Tweeter Sentiment Analysis**
 
 Maching Learning to determine if a Tweet is positive or negative. 
 
