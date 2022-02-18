@@ -13,5 +13,7 @@ Short description:
   Time & date process in order to insert into prediction model.
   Multiple scores of sklearn models used with hyperparameter tuning, bagging etc.
   Unfinished lstm neural network for model prediction.
+  
+For vectorization of text CountVectorizer is used as well as Word2Vec library. CountVectorizer provides far better score.
 
 Used libraries include sklearn, matplotlib, seaborn, ntlk.
