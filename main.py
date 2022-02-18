@@ -43,22 +43,34 @@ def main():
     work_df = df[799500:800500]     #reducing the sample size for speed (specific choice so we have 0 and 4 as target)
 
     data_preprocessing(work_df)       #prepares the dataset with some processing
-    visualization(work_df)      #visualizes the words in dataset
-    hashtag_frequency(work_df)        #graphs the hashtag frequency
+    # visualization(work_df)      #visualizes the words in dataset
+    # hashtag_frequency(work_df)        #graphs the hashtag frequency
 
-    vectors = vectorizer(work_df)       #converts text to vectors
+    vectors = None
+
+    q = input('Press 1 for CountVectorizer or 2 for Word2Vec: ')
+    if q == 1:
+        vectors = vectorizer(work_df)       #converts text to vectors
+    elif q == 2:
+        vectors = wordtovec(work_df['clean'])       #use of word2vec libray
+
     work_df = date_prep(work_df)        #splits date to year, month, day, hour, minute, second
 
     work_df = work_df.drop(['ids', 'date', 'flag', 'user', 'text'], axis='columns')     #drops the unwanted columns
 
     a = input('Do you want to include dates & time to the prediction? y/n: ')
-
     if a == 'y':
-        X = work_df.drop(['target', 'clean'], axis='columns')
-        X = pd.concat([pd.DataFrame(vectors).reset_index(drop=True), X.reset_index(drop=True)], axis='columns', ignore_index=True)        #dataframe with vectors + dates
-        model_training(X, work_df['target'])        #sklearn model for training and prediction
+        try:
+            X = work_df.drop(['target', 'clean'], axis='columns')
+            X = pd.concat([pd.DataFrame(vectors).reset_index(drop=True), X.reset_index(drop=True)], axis='columns', ignore_index=True)        #dataframe with vectors + dates
+            model_training(X, work_df['target'])        #sklearn model for training and prediction
+        except:
+            pass
     elif a== 'n':
-        model_training(vectors, work_df['target'])        #sklearn model for training and prediction
+        try:
+            model_training(vectors, work_df['target'])        #sklearn model for training and prediction
+        except:
+            pass
 
 
     # lstm(vectors, work_df['target'])        #keras lstm
@@ -92,6 +104,41 @@ def main():
 #     score, acc = model.evaluate(X_test, Y_test, verbose=2, batch_size=batch_size)
 #     print("score: %.2f" % (score))
 #     print("acc: %.2f" % (acc))
+
+# import logging
+    # logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
+    # import gensim.downloader as api
+    # corpus = api.load('text8')
+    # import inspect
+    # print(inspect.getsource(corpus.__class__))
+    # print(inspect.getfile(corpus.__class__))
+    # model = Word2Vec(corpus)
+    # model.save('./readyvocab.model')
+
+def wordtovec(tweets):
+    model = Word2Vec.load('readyvocab.model')
+
+    processed_sentences = []
+    for sentence in tweets:
+        processed_sentences.append(gensim.utils.simple_preprocess(sentence))
+
+    vectors = {}
+    i = 0
+    for v in processed_sentences:
+        vectors[str(i)] = []
+        for k in v:
+            try:
+                vectors[str(i)].append(model.wv[k].mean())
+            except:
+                vectors[str(i)].append(np.nan)
+        i += 1
+
+    df_input = pd.DataFrame(dict([(k, pd.Series(v)) for k, v in vectors.items()]))
+    df_input.fillna(value=0.0, inplace=True)  # oti einai nan paei 0
+
+    df_input = df_input.transpose()
+
+    return df_input
 
 def date_prep(work_df):
     work_df['date_year'] = work_df['date'].dt.year
