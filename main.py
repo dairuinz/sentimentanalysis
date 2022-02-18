@@ -105,7 +105,8 @@ def main():
 #     print("score: %.2f" % (score))
 #     print("acc: %.2f" % (acc))
 
-# import logging
+def wordtovec(tweets):
+    # import logging
     # logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
     # import gensim.downloader as api
     # corpus = api.load('text8')
@@ -115,7 +116,6 @@ def main():
     # model = Word2Vec(corpus)
     # model.save('./readyvocab.model')
 
-def wordtovec(tweets):
     model = Word2Vec.load('readyvocab.model')
 
     processed_sentences = []
