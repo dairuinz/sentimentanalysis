@@ -43,11 +43,11 @@ def main():
     work_df = df[799500:800500]     #reducing the sample size for speed (specific choice so we have 0 and 4 as target)
 
     data_preprocessing(work_df)       #prepares the dataset with some processing
-    # visualization(work_df)      #visualizes the words in dataset
-    # hashtag_frequency(work_df)        #graphs the hashtag frequency
+    visualization(work_df)      #visualizes the words in dataset
+    hashtag_frequency(work_df)        #graphs the hashtag frequency
 
     vectors = vectorizer(work_df)       #converts text to vectors
-    # vectors = wordtovec(work_df['clean'])       #use of word2vec libray
+    # vectors = wordtovec(work_df['clean'])       #use of word2vec library
 
     work_df = date_prep(work_df)        #splits date to year, month, day, hour, minute, second
 
@@ -60,8 +60,6 @@ def main():
         model_training(X, work_df['target'])        #sklearn model for training and prediction
     elif a== 'n':
         model_training(vectors, work_df['target'])        #sklearn model for training and prediction
-
-
 
     # lstm(vectors, work_df['target'])        #keras lstm
 
